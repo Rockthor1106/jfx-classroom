@@ -64,7 +64,7 @@
                   <BorderPane prefHeight="123.0" prefWidth="47.0" BorderPane.alignment="CENTER" />
                </right>
                <center>
-                  <PasswordField prefHeight="25.0" prefWidth="294.0" BorderPane.alignment="CENTER" />
+                  <PasswordField fx:id="txtPassword" prefHeight="25.0" prefWidth="294.0" BorderPane.alignment="CENTER" />
                </center>
             </BorderPane>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
@@ -72,7 +72,7 @@
                   <BorderPane prefHeight="123.0" prefWidth="47.0" BorderPane.alignment="CENTER" />
                </right>
                <center>
-                  <TextField BorderPane.alignment="CENTER" />
+                  <TextField fx:id="txtUsername" BorderPane.alignment="CENTER" />
                </center>
             </BorderPane>
          </children>

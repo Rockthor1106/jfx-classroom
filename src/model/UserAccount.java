@@ -1,14 +1,21 @@
 package model;
 
-import java.util.ArrayList;
 
 public class UserAccount {
-
-	public void createAccount(String username,String password) {
-		ArrayList<String> usernames = new ArrayList<String>();
-		ArrayList<String> passwords = new ArrayList<String>();
-		usernames.add(username);
-		passwords.add(password);
-	}
 	
+	private String username;
+	private String password;
+	
+	public UserAccount(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
 }
