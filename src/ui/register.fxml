@@ -16,8 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="405.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="405.0" prefWidth="686.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
@@ -50,8 +49,8 @@
                         </Label>
                      </center>
                   </BorderPane>
-                  <TextField cache="true" GridPane.columnIndex="1" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="registerUS" cache="true" GridPane.columnIndex="1" />
+                  <TextField fx:id="registerPS" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <BorderPane prefHeight="7.0" prefWidth="287.0" GridPane.rowIndex="2">
                      <center>
                         <Label text="Profile photo:" BorderPane.alignment="CENTER">
@@ -159,7 +158,7 @@
                <children>
                   <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <center>
-                        <Button mnemonicParsing="false" text="Create Account" BorderPane.alignment="CENTER">
+                        <Button mnemonicParsing="false" onAction="#createAccount" text="Create Account" BorderPane.alignment="CENTER">
                            <font>
                               <Font size="16.0" />
                            </font>
