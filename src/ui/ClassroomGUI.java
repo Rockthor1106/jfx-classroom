@@ -1,3 +1,4 @@
+  
 package ui;
 
 import java.io.IOException;
@@ -45,4 +46,17 @@ public class ClassroomGUI {
     	new UserAccount().createAccount(username, password);	
     }
     
+    @FXML
+    public void returnToLogin(ActionEvent event) throws IOException {
+        Parent loginScreen = FXMLLoader.load(getClass().getResource("login.fxml"));
+        mainPanel.setTop(loginScreen);
+    }
+    
+    @FXML
+    public void logIn(ActionEvent event) throws IOException {
+
+    		Parent accountList = FXMLLoader.load(getClass().getResource("account-list.fxml"));
+    		mainPanel.getChildren().clear();
+    		mainPanel.setTop(accountList);
+    }
 }

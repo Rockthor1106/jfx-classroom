@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="405.0" prefWidth="686.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="417.0" prefWidth="610.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
@@ -49,8 +49,6 @@
                         </Label>
                      </center>
                   </BorderPane>
-                  <TextField fx:id="registerUS" cache="true" GridPane.columnIndex="1" />
-                  <TextField fx:id="registerPS" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <BorderPane prefHeight="7.0" prefWidth="287.0" GridPane.rowIndex="2">
                      <center>
                         <Label text="Profile photo:" BorderPane.alignment="CENTER">
@@ -72,6 +70,22 @@
                         <TextField BorderPane.alignment="CENTER" />
                      </left>
                   </BorderPane>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                     <right>
+                        <BorderPane prefHeight="35.0" prefWidth="47.0" BorderPane.alignment="CENTER" />
+                     </right>
+                     <center>
+                        <TextField fx:id="registerUS" BorderPane.alignment="CENTER" />
+                     </center>
+                  </BorderPane>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <right>
+                        <BorderPane prefHeight="34.0" prefWidth="47.0" BorderPane.alignment="CENTER" />
+                     </right>
+                     <center>
+                        <TextField fx:id="registerPS" BorderPane.alignment="CENTER" />
+                     </center>
+                  </BorderPane>
                </children>
             </GridPane>
             <GridPane prefHeight="138.0" prefWidth="604.0">
@@ -87,7 +101,7 @@
                <children>
                   <BorderPane prefHeight="18.0" prefWidth="300.0">
                      <center>
-                        <Label alignment="CENTER" text="Genre: " textAlignment="CENTER" BorderPane.alignment="CENTER">
+                        <Label alignment="CENTER" text="Gender: " textAlignment="CENTER" BorderPane.alignment="CENTER">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -134,13 +148,13 @@
                   </GridPane>
                   <HBox prefHeight="20.0" prefWidth="288.0" GridPane.columnIndex="1">
                      <children>
-                        <RadioButton mnemonicParsing="false" selected="true" text="Male">
+                        <RadioButton mnemonicParsing="false" text="Male">
                            <toggleGroup>
-                              <ToggleGroup fx:id="x" />
+                              <ToggleGroup fx:id="gender" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton mnemonicParsing="false" selected="true" text="Female" toggleGroup="$x" />
-                        <RadioButton mnemonicParsing="false" selected="true" text="Other" toggleGroup="$x" />
+                        <RadioButton mnemonicParsing="false" text="Female" toggleGroup="$gender" />
+                        <RadioButton mnemonicParsing="false" text="Other" toggleGroup="$gender" />
                      </children>
                   </HBox>
                </children>
@@ -167,7 +181,7 @@
                   </BorderPane>
                   <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                      <center>
-                        <Button mnemonicParsing="false" text="Sing In" BorderPane.alignment="CENTER">
+                        <Button mnemonicParsing="false" onAction="#returnToLogin" text="Sing In" BorderPane.alignment="CENTER">
                            <font>
                               <Font size="16.0" />
                            </font>
