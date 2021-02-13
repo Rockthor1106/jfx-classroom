@@ -6,8 +6,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import model.Classroom;
 
@@ -53,6 +55,26 @@ public class ClassroomGUI {
     }
     
     @FXML
+    public void alertError() {
+	    Alert alert = new Alert(AlertType.ERROR);
+	    alert.setTitle("Login Error");
+	    alert.setHeaderText(":C");
+	    alert.setContentText("Username or password are incorrect");
+	
+	    alert.showAndWait();
+    }
+    
+    @FXML
+    public void alertAcces() {
+	    Alert alert = new Alert(AlertType.CONFIRMATION);
+	    alert.setTitle("You are logged in");
+	    alert.setHeaderText(":D");
+	    alert.setContentText("successful login. Welcome");
+	
+	    alert.showAndWait();
+    }
+    
+    @FXML
     public void logIn(ActionEvent event) throws IOException {
     	String strusername = txtUsername.getText();
     	String strpassword = txtPassword.getText();
@@ -60,6 +82,10 @@ public class ClassroomGUI {
     		Parent accountList = FXMLLoader.load(getClass().getResource("account-list.fxml"));
     		mainPanel.getChildren().clear();
     		mainPanel.setTop(accountList);
+    		alertAcces();
+    	}
+    	else {
+    		alertError();
     	}
     }
 }
