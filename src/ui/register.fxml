@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="417.0" prefWidth="610.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="417.0" prefWidth="610.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
@@ -60,7 +60,7 @@
                   </BorderPane>
                   <BorderPane prefHeight="10.0" prefWidth="284.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <center>
-                        <Button mnemonicParsing="false" text="Browse" BorderPane.alignment="CENTER">
+                        <Button mnemonicParsing="false" onAction="#searchForProfilePhoto" text="Browse" BorderPane.alignment="CENTER">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -126,7 +126,7 @@
                         </Label>
                      </center>
                   </BorderPane>
-                  <DatePicker GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <DatePicker fx:id="birthday" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -197,7 +197,7 @@
                         </Label>
                      </center>
                   </BorderPane>
-                  <ComboBox prefWidth="150.0" promptText="Choose an option" GridPane.columnIndex="1" />
+                  <ComboBox fx:id="browser" prefWidth="150.0" promptText="Choose an option" GridPane.columnIndex="1" />
                </children>
             </GridPane>
          </children>

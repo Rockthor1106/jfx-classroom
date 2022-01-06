@@ -2,6 +2,9 @@
 package ui;
 
 import java.io.IOException;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +12,10 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.layout.BorderPane;
 import model.Classroom;
 
@@ -31,6 +37,15 @@ public class ClassroomGUI {
     private TextField registerPS;
     
     @FXML
+    private DatePicker birthday;
+
+    @FXML
+    private ComboBox<String> browser;
+
+    @FXML
+    private ToggleGroup gender;
+    
+    @FXML
     public void singUp(ActionEvent event) throws IOException {
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("register.fxml"));
 		
@@ -39,6 +54,7 @@ public class ClassroomGUI {
     	
 		mainPanel.getChildren().clear();
     	mainPanel.setTop(register);
+    	setFavoriteBrowserComboBox();
     }
 
     @FXML
@@ -87,5 +103,16 @@ public class ClassroomGUI {
     	else {
     		alertError();
     	}
+    }
+    
+    public void setFavoriteBrowserComboBox() {
+    	ObservableList<String> browserList = FXCollections.observableArrayList("Google Chorme", "Mozilla", "Edge", "Brave", "Opera", "Zafari");
+    	browser.setValue("Seleccionar");
+    	browser.setItems(browserList);
+    }
+    
+    @FXML
+    public void searchForProfilePhoto() {
+    	
     }
 }
