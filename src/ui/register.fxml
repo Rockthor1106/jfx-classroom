@@ -67,7 +67,7 @@
                         </Button>
                      </center>
                      <left>
-                        <TextField BorderPane.alignment="CENTER" />
+                        <TextField fx:id="photoAddres" BorderPane.alignment="CENTER" />
                      </left>
                   </BorderPane>
                   <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
@@ -141,9 +141,9 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <CheckBox mnemonicParsing="false" text="Software Engineering" />
-                        <CheckBox mnemonicParsing="false" text="Telematic Engineering" GridPane.rowIndex="2" />
-                        <CheckBox mnemonicParsing="false" text="Industrial Engineering" GridPane.rowIndex="4" />
+                        <CheckBox fx:id="SE" mnemonicParsing="false" text="Software Engineering" />
+                        <CheckBox fx:id="TE" mnemonicParsing="false" text="Telematic Engineering" GridPane.rowIndex="2" />
+                        <CheckBox fx:id="IE" mnemonicParsing="false" text="Industrial Engineering" GridPane.rowIndex="4" />
                      </children>
                   </GridPane>
                   <HBox prefHeight="20.0" prefWidth="288.0" GridPane.columnIndex="1">
@@ -204,7 +204,7 @@
       </VBox>
    </center>
    <top>
-      <BorderPane prefHeight="64.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <BorderPane prefHeight="64.0" prefWidth="686.0" BorderPane.alignment="CENTER">
          <top>
             <Label text="Join to Classroom" BorderPane.alignment="CENTER">
                <font>

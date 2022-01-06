@@ -1,8 +1,10 @@
   
 package ui;
 
+import java.io.File;
 import java.io.IOException;
-
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,12 +13,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import model.Classroom;
 
 public class ClassroomGUI {
@@ -46,6 +51,18 @@ public class ClassroomGUI {
     private ToggleGroup gender;
     
     @FXML
+    private CheckBox IE; //Industrial Engineering
+
+    @FXML
+    private CheckBox SE; //Software Engineering
+
+    @FXML
+    private CheckBox TE; //Telematic Engineering
+
+    @FXML
+    private TextField photoAddres;
+
+    @FXML
     public void singUp(ActionEvent event) throws IOException {
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("register.fxml"));
 		
@@ -61,7 +78,22 @@ public class ClassroomGUI {
     public void createAccount(ActionEvent event) {
     	String username = registerUS.getText();
     	String password = registerPS.getText();
-    	new Classroom().addUserAccounts(username, password);	
+    	String photo = searchForProfilePhoto();
+    	RadioButton genderRButton = (RadioButton) gender.getSelectedToggle();
+    	String genderStr = genderRButton.getText();
+    	ArrayList<String> careerList = new ArrayList<String>();
+    	if (SE.isSelected()) {
+			careerList.add(SE.getText());
+		}
+    	if (TE.isSelected()) {
+			careerList.add(TE.getText());
+		}
+    	if (IE.isSelected()) {
+			careerList.add(IE.getText());
+		}
+    	String birthdayStr = birthday.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+    	String favoriteBrowser = browser.getSelectionModel().getSelectedItem();
+    	new Classroom().addUserAccounts(username, password, photo, genderStr, careerList, birthdayStr, favoriteBrowser);	
     }
     
     @FXML
@@ -112,7 +144,15 @@ public class ClassroomGUI {
     }
     
     @FXML
-    public void searchForProfilePhoto() {
-    	
+    public String searchForProfilePhoto() {
+    	String photoPath = null;
+    	FileChooser fileChooser = new FileChooser();
+    	fileChooser.setTitle("Seleccionar foto de perfil");
+    	File file = fileChooser.showOpenDialog(mainPanel.getScene().getWindow());
+    	if (file != null) {
+    		photoPath = file.getAbsolutePath();
+		}
+    	photoAddres.setText(photoPath);
+    	return photoPath;
     }
 }

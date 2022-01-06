@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Classroom {
 	
 	private List<UserAccount> accounts;
@@ -11,8 +12,8 @@ public class Classroom {
 		accounts = new ArrayList<>();
 	}
 	
-	public void addUserAccounts(String username, String password) {
-		accounts.add(new UserAccount(username,password));
+	public void addUserAccounts(String username, String password, String photo, String gender, ArrayList<String> career, String birthday, String favoriteBrowser ) {
+		accounts.add(new UserAccount(username,password,photo, gender, career, birthday, favoriteBrowser));
 	}
 	
 	public List<UserAccount> getUserAccounts(){
