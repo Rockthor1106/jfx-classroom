@@ -3,6 +3,7 @@ package ui;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.channels.NonWritableChannelException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
@@ -11,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
@@ -22,12 +24,14 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import model.Classroom;
+import javafx.scene.Node;
 
 public class ClassroomGUI {
 	
     @FXML
-    private BorderPane mainPanel;
+    private BorderPane mainPane;
 
     @FXML
     private TextField txtUsername;
@@ -65,57 +69,52 @@ public class ClassroomGUI {
     private String photoPath = null;
     
     private Classroom classroom;
-
+    
+    
     public ClassroomGUI(Classroom classroom) {
     	this.classroom = classroom;
     }
     
+    
     @FXML
     public void singUp(ActionEvent event) throws IOException {
-
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("register.fxml"));
-		
-		fxmlLoader.setController(this);    	
-		Parent registerScreen = fxmlLoader.load();
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("register.fxml"));
     	
-		mainPanel.getChildren().clear();
-    	mainPanel.setTop(registerScreen);
-    	setFavoriteBrowserComboBox();
+    	fxmlLoader.setController(this);
+    	
+    	Parent registerScreen = fxmlLoader.load();
+    	
+    	mainPane.getChildren().clear();
+    	mainPane.setTop(registerScreen);
     }
 
     @FXML
     public void createAccount(ActionEvent event) {
     	String username = registerUS.getText();
     	String password = registerPS.getText();
-    	String photo = photoPath;
-    	RadioButton genderRButton = (RadioButton) gender.getSelectedToggle();
-    	String genderStr = genderRButton.getText();
-    	ArrayList<String> careerList = new ArrayList<String>();
-    	if (SE.isSelected()) {
-			careerList.add(SE.getText());
-		}
-    	if (TE.isSelected()) {
-			careerList.add(TE.getText());
-		}
-    	if (IE.isSelected()) {
-			careerList.add(IE.getText());
-		}
-    	String birthdayStr = birthday.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-    	String favoriteBrowser = browser.getSelectionModel().getSelectedItem();
-    	classroom.addUserAccounts(username, password, photo, genderStr, careerList, birthdayStr, favoriteBrowser);
+//    	String photo = photoPath;
+//    	RadioButton genderRButton = (RadioButton) gender.getSelectedToggle();
+//    	String genderStr = genderRButton.getText();
+//    	ArrayList<String> careerList = new ArrayList<String>();
+//    	if (SE.isSelected()) {
+//			careerList.add(SE.getText());
+//		}
+//    	if (TE.isSelected()) {
+//			careerList.add(TE.getText());
+//		}
+//    	if (IE.isSelected()) {
+//			careerList.add(IE.getText());
+//		}
+//    	String birthdayStr = birthday.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+//    	String favoriteBrowser = browser.getSelectionModel().getSelectedItem();
+    	classroom.addUserAccounts(username, password);
     	System.out.println(classroom.getUserAccounts().size());
     	System.out.println(classroom.getUserAccounts().toString());
     }
     
     @FXML
     public void returnToLogin(ActionEvent event) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
-		
-		fxmlLoader.setController(this);    	
-		Parent loginScreen = fxmlLoader.load();
-		
-		mainPanel.getChildren().clear();
-    	mainPanel.setTop(loginScreen);
+    	displaylogInScreen();
     }
     
     @FXML
@@ -142,13 +141,11 @@ public class ClassroomGUI {
     public void logIn(ActionEvent event) throws IOException {
     	String strUsername = txtUsername.getText();
     	String strPassword = txtPassword.getText();
-//    	System.out.println(classroom.getUserAccounts().size());
-//    	System.out.println(classroom.getUserAccounts().get(0).getUsername());
-//    	System.out.println(classroom.getUserAccounts().get(0).getPassword());
+    	System.out.println(classroom.getUserAccounts().get(0).getUsername());
     	if (classroom.userExists(strUsername, strPassword)==true) {
     		Parent accountList = FXMLLoader.load(getClass().getResource("account-list.fxml"));
-    		mainPanel.getChildren().clear();
-    		mainPanel.setTop(accountList);
+    		mainPane.getChildren().clear();
+    		mainPane.setTop(accountList);
     		alertAcces();
     	}
     	else {
@@ -166,10 +163,20 @@ public class ClassroomGUI {
     public void searchForProfilePhoto() {
     	FileChooser fileChooser = new FileChooser();
     	fileChooser.setTitle("Seleccionar foto de perfil");
-    	File file = fileChooser.showOpenDialog(mainPanel.getScene().getWindow());
+    	File file = fileChooser.showOpenDialog(mainPane.getScene().getWindow());
     	if (file != null) {
     		photoPath = file.getAbsolutePath();
 		}
     	photoAddres.setText(photoPath);
+    }
+    
+    public void displaylogInScreen() throws IOException {
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
+    	
+    	fxmlLoader.setController(this);
+    	
+    	Parent loginScreenParent = fxmlLoader.load();
+    	
+    	mainPane.setTop(loginScreenParent);
     }
 }

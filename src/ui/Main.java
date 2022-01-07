@@ -9,8 +9,8 @@ import model.Classroom;
 
 public class Main extends Application{
 	
-	private Classroom classroom;
 	private ClassroomGUI classroomGUI;
+	private Classroom classroom;
 	
 	public static void main (String[] args) {
 		launch(args);
@@ -24,14 +24,17 @@ public class Main extends Application{
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("mainScreen.fxml"));
+		
 		fxmlLoader.setController(classroomGUI);
+		
 		Parent root = fxmlLoader.load();
 		
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Classroom");
 		primaryStage.show();
+		classroomGUI.displaylogInScreen();
 	
 	}
 	
