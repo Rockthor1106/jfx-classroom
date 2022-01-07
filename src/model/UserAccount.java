@@ -6,7 +6,7 @@ public class UserAccount {
 	
 	private String username;
 	private String password;
-	private String photo; //this is the photo's addres
+	private String photo; //this is the photo's address
 	private String gender;
 	private ArrayList<String> career;
 	private String birthday;

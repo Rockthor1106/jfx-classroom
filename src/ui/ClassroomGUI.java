@@ -61,16 +61,25 @@ public class ClassroomGUI {
 
     @FXML
     private TextField photoAddres;
+    
+    private String photoPath = null;
+    
+    private Classroom classroom;
 
+    public ClassroomGUI(Classroom classroom) {
+    	this.classroom = classroom;
+    }
+    
     @FXML
     public void singUp(ActionEvent event) throws IOException {
-    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("register.fxml"));
+
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("register.fxml"));
 		
 		fxmlLoader.setController(this);    	
-		Parent register = fxmlLoader.load();
+		Parent registerScreen = fxmlLoader.load();
     	
 		mainPanel.getChildren().clear();
-    	mainPanel.setTop(register);
+    	mainPanel.setTop(registerScreen);
     	setFavoriteBrowserComboBox();
     }
 
@@ -78,7 +87,7 @@ public class ClassroomGUI {
     public void createAccount(ActionEvent event) {
     	String username = registerUS.getText();
     	String password = registerPS.getText();
-    	String photo = searchForProfilePhoto();
+    	String photo = photoPath;
     	RadioButton genderRButton = (RadioButton) gender.getSelectedToggle();
     	String genderStr = genderRButton.getText();
     	ArrayList<String> careerList = new ArrayList<String>();
@@ -93,13 +102,20 @@ public class ClassroomGUI {
 		}
     	String birthdayStr = birthday.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
     	String favoriteBrowser = browser.getSelectionModel().getSelectedItem();
-    	new Classroom().addUserAccounts(username, password, photo, genderStr, careerList, birthdayStr, favoriteBrowser);	
+    	classroom.addUserAccounts(username, password, photo, genderStr, careerList, birthdayStr, favoriteBrowser);
+    	System.out.println(classroom.getUserAccounts().size());
+    	System.out.println(classroom.getUserAccounts().toString());
     }
     
     @FXML
     public void returnToLogin(ActionEvent event) throws IOException {
-        Parent loginScreen = FXMLLoader.load(getClass().getResource("login.fxml"));
-        mainPanel.setTop(loginScreen);
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
+		
+		fxmlLoader.setController(this);    	
+		Parent loginScreen = fxmlLoader.load();
+		
+		mainPanel.getChildren().clear();
+    	mainPanel.setTop(loginScreen);
     }
     
     @FXML
@@ -124,9 +140,12 @@ public class ClassroomGUI {
     
     @FXML
     public void logIn(ActionEvent event) throws IOException {
-    	String strusername = txtUsername.getText();
-    	String strpassword = txtPassword.getText();
-    	if (new Classroom().userExists(strusername, strpassword)==true) {
+    	String strUsername = txtUsername.getText();
+    	String strPassword = txtPassword.getText();
+//    	System.out.println(classroom.getUserAccounts().size());
+//    	System.out.println(classroom.getUserAccounts().get(0).getUsername());
+//    	System.out.println(classroom.getUserAccounts().get(0).getPassword());
+    	if (classroom.userExists(strUsername, strPassword)==true) {
     		Parent accountList = FXMLLoader.load(getClass().getResource("account-list.fxml"));
     		mainPanel.getChildren().clear();
     		mainPanel.setTop(accountList);
@@ -144,8 +163,7 @@ public class ClassroomGUI {
     }
     
     @FXML
-    public String searchForProfilePhoto() {
-    	String photoPath = null;
+    public void searchForProfilePhoto() {
     	FileChooser fileChooser = new FileChooser();
     	fileChooser.setTitle("Seleccionar foto de perfil");
     	File file = fileChooser.showOpenDialog(mainPanel.getScene().getWindow());
@@ -153,6 +171,5 @@ public class ClassroomGUI {
     		photoPath = file.getAbsolutePath();
 		}
     	photoAddres.setText(photoPath);
-    	return photoPath;
     }
 }

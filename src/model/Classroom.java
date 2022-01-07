@@ -1,12 +1,11 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class Classroom {
 	
-	private List<UserAccount> accounts;
+	private ArrayList<UserAccount> accounts;
 
 	public Classroom() {
 		accounts = new ArrayList<>();
@@ -16,14 +15,16 @@ public class Classroom {
 		accounts.add(new UserAccount(username,password,photo, gender, career, birthday, favoriteBrowser));
 	}
 	
-	public List<UserAccount> getUserAccounts(){
+	public ArrayList<UserAccount> getUserAccounts(){
 		return accounts; 
 	}
 	
 	public boolean userExists(String strUsername,String strPassword) {
 		boolean exists = false;
-		if(accounts.contains(strUsername) && accounts.contains(strPassword)) {
-			exists = true;
+		for (int i = 0; i < accounts.size(); i++) {
+			if (accounts.get(i).getUsername().equals(strUsername) && accounts.get(i).getPassword().equals(strPassword)) {
+				exists = true;
+			}
 		}
 		return exists;
 	}
