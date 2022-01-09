@@ -15,10 +15,10 @@
          <right>
             <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <center>
-                  <Button mnemonicParsing="false" text="Button" BorderPane.alignment="CENTER" />
+                  <Button mnemonicParsing="false" onAction="#logOut" text="Log Out" BorderPane.alignment="CENTER" />
                </center>
                <left>
-                  <ImageView fitHeight="70.0" fitWidth="92.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+                  <ImageView fx:id="photo" fitHeight="70.0" fitWidth="92.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
                </left>
             </BorderPane>
          </right>
@@ -28,7 +28,7 @@
          <center>
             <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <right>
-                  <Label BorderPane.alignment="CENTER">
+                  <Label fx:id="usernameLbl" BorderPane.alignment="CENTER">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -46,13 +46,13 @@
             </Label>
          </center>
       </BorderPane>
-      <TableView prefHeight="325.0" prefWidth="619.0">
+      <TableView fx:id="accountsTV" prefHeight="325.0" prefWidth="619.0">
         <columns>
-          <TableColumn prefWidth="113.0" text="Username" />
-            <TableColumn prefWidth="91.0" text="Gender" />
-            <TableColumn prefWidth="164.0" text="Career" />
-            <TableColumn minWidth="5.0" prefWidth="124.0" text="Birthday" />
-            <TableColumn minWidth="2.0" prefWidth="126.0" text="Browser" />
+          <TableColumn fx:id="usernameTC" prefWidth="113.0" text="Username" />
+            <TableColumn fx:id="genderTC" prefWidth="91.0" text="Gender" />
+            <TableColumn fx:id="careerTC" prefWidth="164.0" text="Career" />
+            <TableColumn fx:id="birthdayTC" minWidth="5.0" prefWidth="124.0" text="Birthday" />
+            <TableColumn fx:id="BrowserTC" minWidth="2.0" prefWidth="126.0" text="Browser" />
         </columns>
       </TableView>
    </children>

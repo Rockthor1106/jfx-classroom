@@ -2,8 +2,10 @@
 package ui;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.channels.NonWritableChannelException;
+import java.io.InputStream;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
@@ -12,21 +14,25 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import model.Classroom;
-import javafx.scene.Node;
+import model.UserAccount;
 
 public class ClassroomGUI {
 	
@@ -70,11 +76,9 @@ public class ClassroomGUI {
     
     private Classroom classroom;
     
-    
     public ClassroomGUI(Classroom classroom) {
     	this.classroom = classroom;
     }
-    
     
     @FXML
     public void singUp(ActionEvent event) throws IOException {
@@ -86,30 +90,29 @@ public class ClassroomGUI {
     	
     	mainPane.getChildren().clear();
     	mainPane.setTop(registerScreen);
+    	setFavoriteBrowserComboBox();
     }
 
     @FXML
     public void createAccount(ActionEvent event) {
     	String username = registerUS.getText();
     	String password = registerPS.getText();
-//    	String photo = photoPath;
-//    	RadioButton genderRButton = (RadioButton) gender.getSelectedToggle();
-//    	String genderStr = genderRButton.getText();
-//    	ArrayList<String> careerList = new ArrayList<String>();
-//    	if (SE.isSelected()) {
-//			careerList.add(SE.getText());
-//		}
-//    	if (TE.isSelected()) {
-//			careerList.add(TE.getText());
-//		}
-//    	if (IE.isSelected()) {
-//			careerList.add(IE.getText());
-//		}
-//    	String birthdayStr = birthday.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-//    	String favoriteBrowser = browser.getSelectionModel().getSelectedItem();
-    	classroom.addUserAccounts(username, password);
-    	System.out.println(classroom.getUserAccounts().size());
-    	System.out.println(classroom.getUserAccounts().toString());
+    	String photo = photoPath;
+    	RadioButton genderRButton = (RadioButton) gender.getSelectedToggle();
+    	String genderStr = genderRButton.getText();
+    	ArrayList<String> careerList = new ArrayList<String>();
+    	if (SE.isSelected()) {
+			careerList.add(SE.getText());
+		}
+    	if (TE.isSelected()) {
+			careerList.add(TE.getText());
+		}
+    	if (IE.isSelected()) {
+			careerList.add(IE.getText());
+		}
+    	String birthdayStr = birthday.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+    	String favoriteBrowser = browser.getSelectionModel().getSelectedItem();
+    	classroom.addUserAccounts(username, password, photo, genderStr, careerList, birthdayStr, favoriteBrowser);
     }
     
     @FXML
@@ -141,16 +144,30 @@ public class ClassroomGUI {
     public void logIn(ActionEvent event) throws IOException {
     	String strUsername = txtUsername.getText();
     	String strPassword = txtPassword.getText();
-    	System.out.println(classroom.getUserAccounts().get(0).getUsername());
     	if (classroom.userExists(strUsername, strPassword)==true) {
-    		Parent accountList = FXMLLoader.load(getClass().getResource("account-list.fxml"));
+    		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("account-list.fxml"));
+    		
+    		fxmlLoader.setController(this);
+    		
+    		Parent accountListScreen = fxmlLoader.load();
+    		
     		mainPane.getChildren().clear();
-    		mainPane.setTop(accountList);
+    		mainPane.setTop(accountListScreen);
     		alertAcces();
+    		initializeAccountsTableView();
+    		usernameLbl.setText(strUsername);
+    		setProfilePhoto(strUsername);
     	}
     	else {
     		alertError();
     	}
+    }
+    
+    public void setProfilePhoto(String username) throws FileNotFoundException {
+    	String path = classroom.searchUser(username).getPhoto();
+		InputStream inputStream = new FileInputStream(path);
+		Image image = new Image(inputStream);
+		photo.setImage(image);
     }
     
     public void setFavoriteBrowserComboBox() {
@@ -179,4 +196,49 @@ public class ClassroomGUI {
     	
     	mainPane.setTop(loginScreenParent);
     }
+    
+    //---------------------------account-list.fxml-----------------------------------
+    
+    @FXML
+    private TableView<UserAccount> accountsTV;
+    
+    @FXML
+    private TableColumn<UserAccount, String> BrowserTC;
+
+    @FXML
+    private TableColumn<UserAccount, String> usernameTC;
+
+    @FXML
+    private TableColumn<UserAccount, String> birthdayTC;
+
+    @FXML
+    private TableColumn<UserAccount, ArrayList<String>> careerTC;
+
+    @FXML
+    private TableColumn<UserAccount, String> genderTC;
+
+    @FXML
+    private ImageView photo;
+
+    @FXML
+    private Label usernameLbl;
+
+    @FXML
+    public void logOut(ActionEvent event) throws IOException {
+    	displaylogInScreen();
+    }
+    
+    public void initializeAccountsTableView() {
+    	ObservableList<UserAccount> accounts;
+    	accounts = FXCollections.observableArrayList(classroom.getUserAccounts());
+    	
+    	accountsTV.setItems(accounts);
+    	usernameTC.setCellValueFactory(new PropertyValueFactory<UserAccount,String>("username"));
+    	genderTC.setCellValueFactory(new PropertyValueFactory<UserAccount,String>("gender"));
+    	careerTC.setCellValueFactory(new PropertyValueFactory<UserAccount,ArrayList<String>>("career"));
+    	birthdayTC.setCellValueFactory(new PropertyValueFactory<UserAccount,String>("birthday"));
+    	BrowserTC.setCellValueFactory(new PropertyValueFactory<UserAccount,String>("favoriteBrowser"));
+    	
+    }
+    //-------------------------------------------------------------------------------
 }

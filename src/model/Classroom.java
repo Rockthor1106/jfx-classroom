@@ -11,8 +11,8 @@ public class Classroom {
 		accounts = new ArrayList<>();
 	}
 	
-	public void addUserAccounts(String username, String password) {
-		accounts.add(new UserAccount(username,password));
+	public void addUserAccounts(String username, String password, String photo, String gender, ArrayList<String> career, String birthday, String favoriteBrower) {
+		accounts.add(new UserAccount(username, password, photo, gender, career, birthday, favoriteBrower));
 	}
 	
 	public ArrayList<UserAccount> getUserAccounts(){
@@ -27,6 +27,16 @@ public class Classroom {
 			}
 		}
 		return exists;
+	}
+	
+	public UserAccount searchUser(String username) {
+		UserAccount foundUserAccount = null;
+		for (int i = 0; i < accounts.size(); i++) {
+			if (accounts.get(i).getUsername().equals(username)) {
+				foundUserAccount = accounts.get(i);
+			}
+		}
+		return foundUserAccount;
 	}
 	
 }
