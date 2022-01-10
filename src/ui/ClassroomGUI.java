@@ -39,106 +39,66 @@ public class ClassroomGUI {
     @FXML
     private BorderPane mainPane;
 
-    @FXML
-    private TextField txtUsername;
-
-    @FXML
-    private PasswordField txtPassword;
-    
-    @FXML
-    private TextField registerUS;
-
-    @FXML
-    private TextField registerPS;
-    
-    @FXML
-    private DatePicker birthday;
-
-    @FXML
-    private ComboBox<String> browser;
-
-    @FXML
-    private ToggleGroup gender;
-    
-    @FXML
-    private CheckBox IE; //Industrial Engineering
-
-    @FXML
-    private CheckBox SE; //Software Engineering
-
-    @FXML
-    private CheckBox TE; //Telematic Engineering
-
-    @FXML
-    private TextField photoAddres;
-    
-    private String photoPath = null;
-    
     private Classroom classroom;
     
     public ClassroomGUI(Classroom classroom) {
     	this.classroom = classroom;
     }
     
-    @FXML
-    public void singUp(ActionEvent event) throws IOException {
-    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("register.fxml"));
-    	
-    	fxmlLoader.setController(this);
-    	
-    	Parent registerScreen = fxmlLoader.load();
-    	
-    	mainPane.getChildren().clear();
-    	mainPane.setTop(registerScreen);
-    	setFavoriteBrowserComboBox();
-    }
-
-    @FXML
-    public void createAccount(ActionEvent event) {
-    	String username = registerUS.getText();
-    	String password = registerPS.getText();
-    	String photo = photoPath;
-    	RadioButton genderRButton = (RadioButton) gender.getSelectedToggle();
-    	String genderStr = genderRButton.getText();
-    	ArrayList<String> careerList = new ArrayList<String>();
-    	if (SE.isSelected()) {
-			careerList.add(SE.getText());
-		}
-    	if (TE.isSelected()) {
-			careerList.add(TE.getText());
-		}
-    	if (IE.isSelected()) {
-			careerList.add(IE.getText());
-		}
-    	String birthdayStr = birthday.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-    	String favoriteBrowser = browser.getSelectionModel().getSelectedItem();
-    	classroom.addUserAccounts(username, password, photo, genderStr, careerList, birthdayStr, favoriteBrowser);
-    }
-    
-    @FXML
-    public void returnToLogin(ActionEvent event) throws IOException {
-    	displaylogInScreen();
-    }
-    
+    //------------------------------Alerts-----------------------------------------
     @FXML
     public void alertError() {
 	    Alert alert = new Alert(AlertType.ERROR);
 	    alert.setTitle("Login Error");
 	    alert.setHeaderText(":C");
 	    alert.setContentText("Username or password are incorrect");
-	
 	    alert.showAndWait();
     }
     
     @FXML
     public void alertAcces() {
-	    Alert alert = new Alert(AlertType.CONFIRMATION);
+	    Alert alert = new Alert(AlertType.INFORMATION);
 	    alert.setTitle("You are logged in");
 	    alert.setHeaderText(":D");
 	    alert.setContentText("successful login. Welcome");
-	
 	    alert.showAndWait();
     }
+    
+    @FXML 
+    public void alertCreatedAccount() {
+    	Alert alert = new Alert(AlertType.INFORMATION);
+    	alert.setTitle("Create account");
+    	alert.setContentText("Your account has been created succesfully");
+    	alert.showAndWait();
+    }
+    
+    @FXML
+    public void alertEmptyFields() {
+    	Alert alert = new Alert(AlertType.WARNING);
+    	alert.setTitle("Create account");
+    	alert.setContentText("Some fields are empty");
+    	alert.showAndWait();
+    }
+    //----------------------------------------------------------------------------------
+    
+    //--------------------------------global methods------------------------------------
+    public void displaylogInScreen() throws IOException {
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
+    	
+    	fxmlLoader.setController(this);
+    	
+    	Parent loginScreenParent = fxmlLoader.load();
+    	
+    	mainPane.setTop(loginScreenParent);
+    }   
+    //-----------------------------------------------------------------------------------
+    
+    //---------------------------------login.fxml----------------------------------------
+    @FXML
+    private TextField txtUsername;
+
+    @FXML
+    private PasswordField txtPassword;
     
     @FXML
     public void logIn(ActionEvent event) throws IOException {
@@ -163,17 +123,116 @@ public class ClassroomGUI {
     	}
     }
     
-    public void setProfilePhoto(String username) throws FileNotFoundException {
-    	String path = classroom.searchUser(username).getPhoto();
-		InputStream inputStream = new FileInputStream(path);
-		Image image = new Image(inputStream);
-		photo.setImage(image);
+    @FXML
+    public void singUp(ActionEvent event) throws IOException {
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("register.fxml"));
+    	
+    	fxmlLoader.setController(this);
+    	
+    	Parent registerScreen = fxmlLoader.load();
+    	
+    	mainPane.getChildren().clear();
+    	mainPane.setTop(registerScreen);
+    	setFavoriteBrowserComboBox();
+    }
+    //-----------------------------------------------------------------------------------
+
+    //--------------------------------register.fxml--------------------------------------
+    @FXML
+    private CheckBox IE; //Industrial Engineering
+
+    @FXML
+    private CheckBox SE; //Software Engineering
+
+    @FXML
+    private CheckBox TE; //Telematic Engineering
+    
+    @FXML
+    private DatePicker birthday;
+
+    @FXML
+    private ComboBox<String> browser;
+
+    @FXML
+    private ToggleGroup gender;
+    
+    @FXML
+    private TextField photoAddres;
+    
+    private String photoPath = null;
+    
+    @FXML
+    private TextField registerUS;
+
+    @FXML
+    private TextField registerPS;
+    
+    @FXML
+    public void createAccount(ActionEvent event) {
+    	if (registerUS.getText().equals(" ")) {
+			alertEmptyFields();
+		}
+    	else if(registerPS.getText().equals(" ")) {
+    		alertEmptyFields();
+    	}
+    	else if (photoAddres.getText().equals(" ")) {
+			alertEmptyFields();
+		}
+    	else if (gender.getSelectedToggle() == null) {
+			alertEmptyFields();
+		}
+    	else if (birthday.getValue() == null) {
+    		alertEmptyFields();
+		}
+    	else if (browser.getSelectionModel().getSelectedItem().equals("Seleccionar")) {
+    		alertEmptyFields();
+		}
+    	else {
+        	String username = registerUS.getText();
+        	String password = registerPS.getText();
+        	String photo = photoPath;
+        	RadioButton genderRButton = (RadioButton) gender.getSelectedToggle();
+        	String genderStr = genderRButton.getText();
+        	ArrayList<String> careerList = new ArrayList<String>();
+        	
+        	if (SE.isSelected() && TE.isSelected() && IE.isSelected()) {
+    			careerList.add(SE.getText());
+    			careerList.add(TE.getText());
+    			careerList.add(IE.getText());
+    		}
+        	else if (SE.isSelected() && TE.isSelected()) {
+    			careerList.add(SE.getText());
+    			careerList.add(TE.getText());
+    		}
+        	if (SE.isSelected() && IE.isSelected()) {
+    			careerList.add(SE.getText());
+    			careerList.add(IE.getText());
+    		}
+        	else if (TE.isSelected() && IE.isSelected()) {
+				careerList.add(TE.getText());
+				careerList.add(IE.getText());
+			}
+        	else if (SE.isSelected()) {
+				careerList.add(SE.getText());
+			}
+        	else if (TE.isSelected()) {
+				careerList.add(TE.getText());
+			}
+        	else {
+				alertEmptyFields();
+			}
+        	String birthdayStr = birthday.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        	String favoriteBrowser = browser.getSelectionModel().getSelectedItem();
+        	if (!careerList.isEmpty()) {
+        		classroom.addUserAccounts(username, password, photo, genderStr, careerList, birthdayStr, favoriteBrowser);
+        		alertCreatedAccount();
+			}
+    	}
     }
     
-    public void setFavoriteBrowserComboBox() {
-    	ObservableList<String> browserList = FXCollections.observableArrayList("Google Chorme", "Mozilla", "Edge", "Brave", "Opera", "Zafari");
-    	browser.setValue("Seleccionar");
-    	browser.setItems(browserList);
+    @FXML
+    public void returnToLogin(ActionEvent event) throws IOException {
+    	displaylogInScreen();
     }
     
     @FXML
@@ -187,17 +246,14 @@ public class ClassroomGUI {
     	photoAddres.setText(photoPath);
     }
     
-    public void displaylogInScreen() throws IOException {
-    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
-    	
-    	fxmlLoader.setController(this);
-    	
-    	Parent loginScreenParent = fxmlLoader.load();
-    	
-    	mainPane.setTop(loginScreenParent);
+    public void setFavoriteBrowserComboBox() {
+    	ObservableList<String> browserList = FXCollections.observableArrayList("Google Chorme", "Mozilla", "Edge", "Brave", "Opera", "Zafari");
+    	browser.setValue("Seleccionar");
+    	browser.setItems(browserList);
     }
+    //-----------------------------------------------------------------------------------
     
-    //---------------------------account-list.fxml-----------------------------------
+    //---------------------------account-list.fxml---------------------------------------
     
     @FXML
     private TableView<UserAccount> accountsTV;
@@ -240,5 +296,12 @@ public class ClassroomGUI {
     	BrowserTC.setCellValueFactory(new PropertyValueFactory<UserAccount,String>("favoriteBrowser"));
     	
     }
-    //-------------------------------------------------------------------------------
+    
+    public void setProfilePhoto(String username) throws FileNotFoundException {
+    	String path = classroom.searchUser(username).getPhoto();
+		InputStream inputStream = new FileInputStream(path);
+		Image image = new Image(inputStream);
+		photo.setImage(image);
+    }
+    //---------------------------------------------------------------------------------
 }
